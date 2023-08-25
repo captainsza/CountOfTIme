@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        /* Dark mode styles */
+        
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        #form {
+            margin-top: 20px;
+        }
+        
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .loading {
+            color: #3498db;
+        }
+        
+        .success {
+            color: #27ae60;
+        }
+        
+        .error {
+            color: #e74c3c;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        /* Dark mode button styles */
+        
+        #dark-mode-button {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        #uploaded-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Classification</h1>
+
+    <!-- Dark mode toggle button -->
+    <button id="dark-mode-button">Dark Mode</button>
+
+    <form id="form" enctype="multipart/form-data">
+        <input type="file" name="image" id="image" accept="image/*">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+    <img id="uploaded-image" src="" alt="Uploaded Image">
+
+
+    <script>
+        const form = document.querySelector('#form');
+        const result = document.querySelector('#result');
+        const imageInput = document.querySelector('#image');
+        const uploadedImage = document.querySelector('#uploaded-image');
+        const darkModeButton = document.querySelector('#dark-mode-button');
+        const body = document.body;
+
+        darkModeButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+
+        form.addEventListener('submit', async(event) => {
+            event.preventDefault();
+            result.textContent = 'Loading...';
+            result.className = 'loading';
+
+            const formData = new FormData(form);
+            const response = await fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                result.textContent = data.error;
+                result.className = 'error';
+            } else {
+                result.textContent = `Class: ${data.class_name}, Confidence: ${data.confidence_score}`;
+                result.className = 'success';
+            }
+        });
+
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                uploadedImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+
+</html>

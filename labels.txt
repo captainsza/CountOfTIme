@@ -1,0 +1,23 @@
+0 alexendar era
+1 ancient egypt
+2 ancinet greec
+3 stone age
+4 roman age
+5 indus valley age
+6 qin dynasty
+7 Bronze age
+8 Neolithic Age
+9 Confucius and Laozi
+10 Birth of Jesus Christ
+11 Black death
+12 Christopher Columbus
+13 Norman Conquest of England
+14 Rise of islam
+15 Martin Luther and the Protestant Reformation
+16 Edo Period in Japan
+17 Genghis Khan and the Mongol Empire
+18 Heian Period in Japan
+19 Three Kingdoms of China
+20 First Crusade
+21 End of Zheng Hes Voyages
+22 Fall of the Western Roman Empire
